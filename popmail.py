@@ -8,7 +8,8 @@ from email.message import EmailMessage
 
 server = "127.0.0.1"
 user = "harish-kumar"
-passwd = "vharishk"
+passwd = "" 
+#passwd of linux
 
 server = poplib.POP3(server)
 server.user(user)
