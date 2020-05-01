@@ -1,9 +1,9 @@
 import paramiko
 
 hostname = "127.0.0.1"
-port = 22
+port = 1337 #change port accordingly
 user = "harish-kumar"
-#enter local password
+#enter local password(ubuntu)
 passwd = ""
 
 try:
