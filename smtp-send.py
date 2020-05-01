@@ -2,7 +2,7 @@
 
 import smtplib
 
-message = """From: From harish <harishvijayarajan@gmail.com>
+message = """ From: From harish <clientmachine>
 To: To Harishkumar <machine running smtp server>
 MIME-Version: 1.0
 Content-Type: text/html
@@ -16,7 +16,7 @@ This is an html email message
 
 try:
 	smtp = smtplib.SMTP("ip of smtp server")
-	smtp.sendmail("from, to, message")
+	smtp.sendmail("from","to",message)
 	print("Email sent")
 except Exception as err:
 	print(err)
