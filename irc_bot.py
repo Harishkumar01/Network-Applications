@@ -1,4 +1,4 @@
-import socket, sys, random
+import socket
 
 class IRC:
     irc = socket.socket()
