@@ -32,7 +32,7 @@ def startClient(args):
 		while (data):
 			client.sendall(binascii.hexlify(data))
 			data = f.read(512)
-	client(close)
+	client.close()
 	print("[File Sent] " + args.file)
 
 def main(args):
@@ -40,20 +40,18 @@ def main(args):
 		startClient(args)
 	elif (args.server):
 		startServer(args)
-	else:
-		continue
 
 if __name__ == "__main__":
-	parser = argparse.ArgumentParser()
-	parser.add_argument("-c", "--client", action="store", help="start client", type=str, nargs="?", default=False,const=true)
-	parser.add_argument("-s", "--server", action="store", help="start server", type=str, nargs="?", default=False,const=true)
-	parser.add_argument("-i", "--ip",     action="store", help="remote server ip", type=str)
-        parser.add_argument("-p", "--port",   action="store", help="remote server ip", type=int)
-        parser.add_argument("-f", "--file",   action="store", help="remote server ip", type=str)
-	args = parser.parse_args()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-c", "--client", action="store", help="start client", type=str, nargs="?", default=False,const=True)
+    parser.add_argument("-s", "--server", action="store", help="start server", type=str, nargs="?", default=False,const=True)
+    parser.add_argument("-i", "--ip",     action="store", help="remote server ip", type=str)
+    parser.add_argument("-p", "--port",   action="store", help="remote server ip", type=int)
+    parser.add_argument("-f", "--file",   action="store", help="remote server ip", type=str)
+    args = parser.parse_args()
 
-	if (not args.client and not args.server):
-		parser.print_help()
-		print("\n You must specify --client or --server")
-		parser.exit()
-	main(args)
+    if (not args.client and not args.server):
+            parser.print_help()
+            print("\n You must specify --client or --server")
+            parser.exit()
+    main(args)
