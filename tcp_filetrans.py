@@ -1,13 +1,13 @@
 import os, argparse, socket ,socketserver ,binascii
 
 
-class tcpServer(socketserver, BaseRequestHandler):
+class tcpServer(socketserver.BaseRequestHandler):
 	def handle(self):
 		data = self.request.recv(512).strip()
 		if data.startswith(b"send: "):
 			filename = data.split(b":")[1]
-			print("[Receiving file] " + file.decode())
-			with open(str(file.decode("utf-8")),"wb") as f:
+			print("[Receiving file] " + filename.decode())
+			with open(str(filename.decode("utf-8")),"wb") as f:
 				data = bytearray(self.request.recv(512).strip())
 				if len(data) % 2 == 0:
 					f.write(binascii.unhexlify(data))
@@ -17,7 +17,7 @@ class tcpServer(socketserver, BaseRequestHandler):
 
 
 def startServer(args):
-	server = scoketserver.TCPServer(("127.0.0.1",args.port),tcpServer)
+	server = socketserver.TCPServer(("127.0.0.1",args.port),tcpServer)
 	print("[Server Started]")
 	server.serve_forever()
 
