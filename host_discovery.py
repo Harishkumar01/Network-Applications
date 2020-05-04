@@ -1,7 +1,8 @@
 # Network traffic is a concern (witnessed in arpScan)
 # Implement threading in ip,tcp scan to improve efficiency
 
-import multiprocessing, sys, netaddr, argparse, logging
+import multiprocessing
+import sys, netaddr, argparse, logging
 from scapy.all import *
 from datetime import datetime
 logging.getLogger("scapy.runetime").setLevel(logging.ERROR)
