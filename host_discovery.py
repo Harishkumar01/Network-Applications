@@ -5,7 +5,7 @@ import multiprocessing
 import sys, netaddr, argparse, logging
 from scapy.all import *
 from datetime import datetime
-logging.getLogger("scapy.runetime").setLevel(logging.ERROR)
+logging.getLogger("scapy.runtime").setLevel(logging.ERROR)
 conf.verb = 0
 
 class const:
@@ -23,7 +23,7 @@ def ping(ip):
     if reply is not None:
         print("[+] [PING] Online: " + str(ip))
     else:
-        print("[+] [OFFLINE]: " + str(ip))
+        print("[-] [OFFLINE]: " + str(ip))
 
 def tcp(ip):
     port = 53
@@ -40,7 +40,7 @@ def tcp(ip):
         else:
             print("[+] [TCP] Online: " + str(ip))
     else:
-        print("[+] [OFFLINE]: " + str(ip))
+        print("[-] [OFFLINE]: " + str(ip))
 
 def scan(subnet, typeval):
 #    jobs = []
