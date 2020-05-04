@@ -1,3 +1,6 @@
+#arp works little fine
+# prob with threading ping,tcp
+
 import multiprocessing, sys, netaddr, argparse, logging
 from scapy.all import *
 from datetime import datetime
@@ -6,7 +9,7 @@ conf.verb = 0
 
 class const:
     ARP = 0
-    PING = 1
+    PING = 1  
     TCP = 2
 
 def arpScan(subnet):
