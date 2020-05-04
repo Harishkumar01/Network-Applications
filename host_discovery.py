@@ -1,5 +1,5 @@
-#arp works little fine
-# prob with threading ping,tcp
+# Network traffic is a concern (witnessed in arpScan)
+# Implement threading in ip,tcp scan to improve efficiency
 
 import multiprocessing, sys, netaddr, argparse, logging
 from scapy.all import *
@@ -21,6 +21,8 @@ def ping(ip):
     reply = sr1(IP(dst=str(ip)) / ICMP(), timeout=3)
     if reply is not None:
         print("[+] [PING] Online: " + str(ip))
+    else:
+        print("[+] [OFFLINE]: " + str(ip))
 
 def tcp(ip):
     port = 53
@@ -29,34 +31,44 @@ def tcp(ip):
 
     if pkt is not None:
         flag = pkt.getlayer(TCP).flags
-        if flag == 0x12: ##syn, ack
+        if flag == 0x12: #syn, ack
             print("[+] [TCP] Online: " + str(ip) + "- replied with syn,ack")
             send(IP(dst = str(ip)) / TCP(sport = srcp, dport = port, flags = "R"))
         elif flag == 0x14: #Reset but host still alive
             print("[+] [TCP] Online: " + str(ip) + "- replied with reset(RST),ack")
+        else:
+            print("[+] [TCP] Online: " + str(ip))
+    else:
+        print("[+] [OFFLINE]: " + str(ip))
 
 def scan(subnet, typeval):
-    jobs = []
-    for ip in subnet:
-        if typeval == const.PING:
-            p = multiprocessing.Process(target=ping, args=(ip,))
-            jobs.append(p)
-            p.start()
-        else:
-            p = multiprocessing.Process(target=tcp, args=(ip,))
-            jobs.append(p)
-            p.start()
-
-    for j in jobs:
-        j.join()
+#    jobs = []
+#    for ip in subnet:
+#        if typeval == const.PING:
+#            p = multiprocessing.Process(target=ping, args=(ip,))
+#            jobs.append(p)
+#            p.start()
+#        else:
+#            p = multiprocessing.Process(target=tcp, args=(ip,))
+#            jobs.append(p)
+#            p.start()
+#
+#    for j in jobs:
+#        j.join()
+    if typeval == const.PING:
+        for ip in subnet:
+            ping(ip)
+    if typeval == const.TCP:
+        for ip in subnet:
+            tcp(ip)
 
 def main(args):
     try:
         subnet = netaddr.IPNetwork(args.subnet)
         starttime = datetime.now()
         print("___________________________________________________________________")
-        print("[+] Scanning from " + str(subnet[1]) + "to " + str(subnet[-1]))
-        print("[+] Started " + str(starttime))
+        print("[+] Scanning from " + str(subnet[0]) + " to " + str(subnet[-1]))
+        print("[+] Started @ " + str(starttime))
         print("___________________________________________________________________")
 
         if args.scantype == const.ARP:
@@ -73,7 +85,7 @@ def main(args):
         stoptime = datetime.now()
         print("___________________________________________________________________")
         print("[+] Scan Duration " + str(stoptime - starttime))
-        print("[+] Completed " + str(stoptime))
+        print("[+] Completed @ " + str(stoptime))
         print("___________________________________________________________________")
 
 
