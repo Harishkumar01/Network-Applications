@@ -21,7 +21,7 @@ def ping(ip):
 
 def tcp(ip):
     port = 53
-    srcp = Randshort()
+    srcp = RandShort()
     pkt = sr1(IP(dst=str(ip)) / TCP(sport = srcp, dport = port, flags = "S"), timeout=5)
 
     if pkt is not None:
